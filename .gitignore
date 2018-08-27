@@ -1,1 +1,4 @@
 sample_config
+/*.egg-info/
+/dist/
+/build/
