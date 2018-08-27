@@ -2,8 +2,8 @@
 
 from setuptools import setup
 
-#with open("README", 'r') as f:
-#    long_description = f.read()
+with open("README", 'r') as f:
+    long_description = f.read()
 
 setup(
    name='pypi_crawler',
@@ -13,7 +13,8 @@ setup(
    long_description=long_description,
    author='Andreas Stamminger',
    author_email='andreas.stamminger@pm.me',
+   scripts=['bin/sync_package_cache'],
 #   url="http://www.foopackage.com/",
-   packages=['pypi_crawler'],
+#   packages=['pypi_crawler'],
    install_requires=['requests', 'configparser'], 
 )
