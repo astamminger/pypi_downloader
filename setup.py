@@ -15,6 +15,6 @@ setup(
    author_email='andreas.stamminger@pm.me',
    scripts=['bin/sync_package_cache'],
 #   url="http://www.foopackage.com/",
-#   packages=['pypi_crawler'],
+   packages=['pypi_crawler'],
    install_requires=['requests', 'configparser'], 
 )
