@@ -40,6 +40,19 @@ def resolve_url_list(package):
     return url_list
 
 
+def download_package(url, target_file):
+    """Download contents at url-address to file."""
+
+    if (not os.path.exists(target_file)):
+        package_data = request.get(url, allow_redirects=True)
+        with open(target_file, 'wb') as target:
+            target.write(package_data.content)
+    else: # skip if file is already present in cache
+        pass
+
+    return None
+
+
 def create_directory(dirname):
     """Check if a directory exists and create it if it doesn't."""
 
