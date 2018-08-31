@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+
 import os
 import argparse
 import configparser
 
 import pypi_crawler
+
 
 def setup_parser():
     """Setup the parser instance."""
@@ -29,8 +31,13 @@ def parse_config(configfile):
     config = configparser.ConfigParser(allow_no_value=True)
     config.read(configfile)
 
-    settings = {}
+    # get (and possibly create) the defined cache folder
     cache_folder = config['settings'].get('cache_folder', fallback='./')
+    cache_folder_abspath = os.path.abspath(cache_folder)
+    pypi_crawler.create_directory(cache_folder_abspath)
+    settings = {
+        'cache_folder': os.path.abspath(cache_folder),
+    }
 
     package_list = []
     for item in config['packages']:
@@ -38,12 +45,11 @@ def parse_config(configfile):
 
     return (settings, package_list)
 
+
 if __name__ == "__main__":
     parser = setup_parser()
     config_path = os.path.abspath(parser.parse_args().configfile)
     settings, packages = parse_config(config_path)
 
-    pypi_crawler.build_package_cache(settings, packages)
-
-    
-    
+    for package in packages:
+        pypi_crawler.build_package_cache(settings, package)
