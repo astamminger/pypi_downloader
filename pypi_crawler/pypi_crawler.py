@@ -11,7 +11,6 @@ from pkg_resources import Requirement
 
 
 _GENERIC_ADDRESS = "https://pypi.org/pypi/{package}/json"
-_PROGRESSBAR_TITLE = "{title:{width}s}"
 
 
 def build_package_cache(settings, package):
@@ -20,13 +19,9 @@ def build_package_cache(settings, package):
     pkg_urls = resolve_url_list(package)
 
     total_entries = len(pkg_urls)
-    max_len_entry = max([len(f) for (p,f,u) in pkg_urls])
-    bartitle = "{title:{width}s}"
-    initial_title = bartitle.format(title='', width=max_len_entry)
-
-    with click.progressbar(length=total_entries, label=initial_title) as bar:
+    with click.progressbar(length=total_entries, width=0, label='') as bar:
         for (project_name, file_name, url) in pkg_urls:
-            bar.label = bartitle.format(title=file_name, width=max_len_entry)
+            bar.label = "{:32s}".format(file_name)
             target_folder = get_cache_subfolder(settings, project_name)
             target_file = os.path.join(target_folder, file_name)
             download_package(url, target_file)
