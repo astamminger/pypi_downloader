@@ -4,8 +4,9 @@
 import os
 import errno
 import requests
+import json
 
-from pgg_resources import Requirement
+from pkg_resources import Requirement
 
 
 _GENERIC_ADDRESS = "https://pypi.org/pypi/{package}/json"
@@ -51,6 +52,17 @@ def download_package(url, target_file):
         pass
 
     return None
+
+
+def get_cache_subfolder(settings, project_name):
+    """Checks and returns the subfolder for the defined project_name."""
+
+    cache_folder = settings.get('cache_folder')
+    target_folder = os.path.abspath(os.path.join(cache_folder, project_name))
+    if (not os.path.exists(target_folder)):
+        create_directory(target_folder)
+    
+    return target_folder
 
 
 def create_directory(dirname):
