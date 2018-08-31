@@ -4,7 +4,7 @@ import os
 import argparse
 import configparser
 
-from pypi_crawler.pypi_crawler import build_package_cache
+import pypi_crawler
 
 def setup_parser():
     """Setup the parser instance."""
@@ -30,35 +30,20 @@ def parse_config(configfile):
     config.read(configfile)
 
     settings = {}
-    python_version = config['settings'].get('python_version')
     cache_folder = config['settings'].get('cache_folder', fallback='./')
-    preferred_type = config['settings'].get('preferred_type', 
-                                            fallback='bdist_wheel')
-    arch = config['settings'].get('arch')
-    if (python_version == '2.7'):
-        py_vers_str = 'py27'
-    elif (python_version == '3.6'):
-        py_vers_str = 'py36'
-    else:
-        raise ValueError("Unsupported python version. Allowed versions are "
-                         "2.7 and 3.6")
-    settings.update({'python_version': py_vers_str})
-    settings.update({'cache_location': os.path.abspath(cache_folder)})
-    settings.update({'package_type': preferred_type})
-    settings.update({'arch': arch})
 
     package_list = []
     for item in config['packages']:
-        package_list.append(item.lower())
+        package_list.append(item)
 
-    config_dict = {
-        'settings': settings,
-        'packages': package_list,
-    }
-    
-    return config_dict
+    return (settings, package_list)
 
 if __name__ == "__main__":
     parser = setup_parser()
     config_path = os.path.abspath(parser.parse_args().configfile)
-    config = parse_config(config_path)
+    settings, packages = parse_config(config_path)
+
+    pypi_crawler.build_package_cache(settings, packages)
+
+    
+    
