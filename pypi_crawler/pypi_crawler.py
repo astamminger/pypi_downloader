@@ -26,9 +26,10 @@ def build_package_cache(settings, package):
 
     with click.progressbar(length=total_entries, label=initial_title) as bar:
         for (project_name, file_name, url) in pkg_urls:
+            bar.label = bartitle.format(title=file_name, width=max_len_entry)
             target_folder = get_cache_subfolder(settings, project_name)
-            target_file = os.path.join(target_folder, filen_ame)
-            download(url, target_file)
+            target_file = os.path.join(target_folder, file_name)
+            download_package(url, target_file)
 
             bar.update(1) # advance status bar
 
@@ -46,11 +47,12 @@ def resolve_url_list(package):
 
     url_list = []
     for version in wanted_versions:
-        package_info = package_data['releases'].get(version)
-        filename = str(package_info.get('filename')) # file name
-        url = str(package_info.get('url'))           # url
-        project_name = str(filename.split('-')[0])   # sub-folder in cache
-        url_list.append((project_name, filename, url))
+        packages_for_version = package_data['releases'].get(version)
+        for package in packages_for_version: 
+            file_name = str(package.get('filename')) # file name
+            url = str(package.get('url'))           # url
+            project_name = str(file_name.split('-')[0])   # sub-folder in cache
+            url_list.append((project_name, file_name, url))
 
     return url_list
 
@@ -59,7 +61,7 @@ def download_package(url, target_file):
     """Download contents at url-address to file."""
 
     if (not os.path.exists(target_file)):
-        package_data = request.get(url, allow_redirects=True)
+        package_data = requests.get(url, allow_redirects=True)
         with open(target_file, 'wb') as target:
             target.write(package_data.content)
     else: # skip if file is already present in cache
@@ -79,11 +81,11 @@ def get_cache_subfolder(settings, project_name):
     return target_folder
 
 
-def create_directory(dirname):
+def create_directory(dir_name):
     """Check if a directory exists and create it if it doesn't."""
 
     try:
-        os.makedirs(dirname)
+        os.makedirs(dir_name)
     except OSError as e: 
         if e.errno != errno.EEXIST:
             raise
