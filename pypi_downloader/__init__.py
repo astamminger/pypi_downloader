@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 
-from pypi_crawler.pypi_crawler import build_package_cache
-from pypi_crawler.pypi_crawler import create_directory
+from pypi_downloader.pypi_downloader import (build_package_cache, 
+                                             create_directory)
