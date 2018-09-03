@@ -8,7 +8,7 @@ with open("README.md", 'r') as f:
 setup(
    name='pypi_downloader',
    version='1.0',
-   description='A small module to download packages from PyPi',
+   description='A small utility to download packages from PyPi',
    license="MIT",
    long_description=long_description,
    author='Andreas Stamminger',
