@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 
 import os
@@ -45,7 +46,6 @@ def parse_config(configfile):
 
     package_list = []
     for item in config['packages']:
-        print(item)
         package_list.append(item)
 
     return (settings, package_list)
