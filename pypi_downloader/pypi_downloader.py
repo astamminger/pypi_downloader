@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 
 import os
@@ -16,20 +16,24 @@ _GENERIC_ADDRESS = "https://pypi.org/pypi/{package}/json"
 def build_package_cache(settings, package):
     """Download all package versions from PyPI for specified package."""
 
-    pkg_urls = resolve_url_list(package)
-
+    pkg_urls = resolve_url_list(settings, package)
     total_entries = len(pkg_urls)
-    with click.progressbar(length=total_entries, width=0, label='') as bar:
-        for (project_name, file_name, url) in pkg_urls:
-            bar.label = "{:32s}".format(file_name)
-            target_folder = get_cache_subfolder(settings, project_name)
-            target_file = os.path.join(target_folder, file_name)
-            download_package(url, target_file)
 
-            bar.update(1) # advance status bar
+    if (total_entries == 0):
+        return None
+    else:
+        with click.progressbar(length=total_entries, width=0, label='') as bar:
+            for (project_name, file_name, url) in pkg_urls:
+                bar.label = "{:32s}".format(file_name)
+                target_folder = get_cache_subfolder(settings, project_name)
+                target_file = os.path.join(target_folder, file_name)
+                download_package(url, target_file)
+
+                bar.update(1) # advance status bar
+        return None
 
 
-def resolve_url_list(package):
+def resolve_url_list(settings, package):
     """Build a url list for packages matching the specifications."""
 
     requires = Requirement(package)
@@ -41,13 +45,16 @@ def resolve_url_list(package):
     wanted_versions = [v for v in all_versions if (requires.__contains__(v))]
 
     url_list = []
+    accepted_types = settings['packagetypes']
     for version in wanted_versions:
         packages_for_version = package_data['releases'].get(version)
         for package in packages_for_version: 
-            file_name = str(package.get('filename')) # file name
-            url = str(package.get('url'))            # url
+            package_type = package['packagetype']
+            file_name = str(package.get('filename'))  # file name
+            url = str(package.get('url'))             # url
             project_name = str(requires.name)         # sub-folder in cache
-            url_list.append((project_name, file_name, url))
+            if (package_type in accepted_types):
+                url_list.append((project_name, file_name, url))
 
     return url_list
 
