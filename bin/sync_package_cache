@@ -28,24 +28,24 @@ def parse_config(configfile):
         raise OSError("No config file found at location '{}'"
                       .format(configfile))
 
-    config = configparser.ConfigParser(allow_no_value=True)
+    # delmiters=(':',':') to allow for = signs in package version specs
+    config = configparser.ConfigParser(allow_no_value=True, 
+                                       delimiters=(':',':'))
     config.read(configfile)
 
     # get (and possibly create) the defined cache folder
     cache_folder = config['settings'].get('cache_folder', fallback='./')
-    preferred = config['settings'].get('prefer', fallback='wheel')
-    if (preferred not in ["tar.gz", "wheel"]):
-        raise Exception("Preferred datatypes can only be of type 'tar.gz' or "
-                        "'wheel'.")
+    packagetypes = config['settings'].get('packagetypes', fallback='wheel')
     cache_folder_abspath = os.path.abspath(cache_folder)
     pypi_downloader.create_directory(cache_folder_abspath)
     settings = {
         'cache_folder': os.path.abspath(cache_folder),
-        'preferred': str(preferred),
+        'packagetypes': packagetypes.split(",")
     }
 
     package_list = []
     for item in config['packages']:
+        print(item)
         package_list.append(item)
 
     return (settings, package_list)
