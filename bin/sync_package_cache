@@ -33,10 +33,15 @@ def parse_config(configfile):
 
     # get (and possibly create) the defined cache folder
     cache_folder = config['settings'].get('cache_folder', fallback='./')
+    preferred = config['settings'].get('prefer', fallback='wheel')
+    if (preferred not in ["tar.gz", "wheel"]):
+        raise Exception("Preferred datatypes can only be of type 'tar.gz' or "
+                        "'wheel'.")
     cache_folder_abspath = os.path.abspath(cache_folder)
     pypi_crawler.create_directory(cache_folder_abspath)
     settings = {
         'cache_folder': os.path.abspath(cache_folder),
+        'preferred': str(preferred),
     }
 
     package_list = []
