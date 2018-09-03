@@ -45,8 +45,8 @@ def resolve_url_list(package):
         packages_for_version = package_data['releases'].get(version)
         for package in packages_for_version: 
             file_name = str(package.get('filename')) # file name
-            url = str(package.get('url'))           # url
-            project_name = str(file_name.split('-')[0])   # sub-folder in cache
+            url = str(package.get('url'))            # url
+            project_name = str(requires.name)         # sub-folder in cache
             url_list.append((project_name, file_name, url))
 
     return url_list
