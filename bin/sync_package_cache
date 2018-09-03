@@ -5,7 +5,7 @@ import os
 import argparse
 import configparser
 
-import pypi_crawler
+import pypi_downloader
 
 
 def setup_parser():
@@ -38,7 +38,7 @@ def parse_config(configfile):
         raise Exception("Preferred datatypes can only be of type 'tar.gz' or "
                         "'wheel'.")
     cache_folder_abspath = os.path.abspath(cache_folder)
-    pypi_crawler.create_directory(cache_folder_abspath)
+    pypi_downloader.create_directory(cache_folder_abspath)
     settings = {
         'cache_folder': os.path.abspath(cache_folder),
         'preferred': str(preferred),
@@ -57,4 +57,4 @@ if __name__ == "__main__":
     settings, packages = parse_config(config_path)
 
     for package in packages:
-        pypi_crawler.build_package_cache(settings, package)
+        pypi_downloader.build_package_cache(settings, package)
