@@ -40,7 +40,7 @@ def resolve_url_list(settings, package):
 
     package_addr = _GENERIC_ADDRESS.format(package=requires.name)
     package_data = requests.get(package_addr).json()
-    
+
     all_versions = package_data["releases"].keys()
     wanted_versions = [v for v in all_versions if (requires.__contains__(v))]
 
@@ -48,7 +48,7 @@ def resolve_url_list(settings, package):
     accepted_types = settings['packagetypes']
     for version in wanted_versions:
         packages_for_version = package_data['releases'].get(version)
-        for package in packages_for_version: 
+        for package in packages_for_version:
             package_type = package['packagetype']
             file_name = str(package.get('filename'))  # file name
             url = str(package.get('url'))             # url
@@ -79,7 +79,7 @@ def get_cache_subfolder(settings, project_name):
     target_folder = os.path.abspath(os.path.join(cache_folder, project_name))
     if (not os.path.exists(target_folder)):
         create_directory(target_folder)
-    
+
     return target_folder
 
 
@@ -88,9 +88,9 @@ def create_directory(dir_name):
 
     try:
         os.makedirs(dir_name)
-    except OSError as e: 
+    except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    
+
     return None
 
