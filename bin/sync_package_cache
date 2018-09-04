@@ -15,8 +15,8 @@ def setup_parser():
     prog_name = "sync_package_cache"
     description = ("Reads the provided config file and builds the package "
                    "cache according to the defined settings.")
-    parser = argparse.ArgumentParser(prog=prog_name, description=description) 
-    parser.add_argument('configfile', type=str, 
+    parser = argparse.ArgumentParser(prog=prog_name, description=description)
+    parser.add_argument('configfile', type=str,
                         help="Path to a valid config file.")
 
     return parser
@@ -30,7 +30,7 @@ def parse_config(configfile):
                       .format(configfile))
 
     # delmiters=(':',':') to allow for = signs in package version specs
-    config = configparser.ConfigParser(allow_no_value=True, 
+    config = configparser.ConfigParser(allow_no_value=True,
                                        delimiters=(':',':'))
     config.read(configfile)
 
