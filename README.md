@@ -63,7 +63,7 @@ version range). An example configuration file is shown below.
     pip>=9.0.0,<10.0.0
 ```
 
-To download the specified packages to the `~/cache` folder call the implemented
+To download the specified packages to the `./cache` folder call the implemented
 `sync_package_cache` command with the setup configuration file as argument:
 
 ```console
