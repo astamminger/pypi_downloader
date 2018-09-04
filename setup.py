@@ -16,5 +16,5 @@ setup(
    scripts=['bin/sync_package_cache'],
    url="https://github.com/astamminger/pypi_downloader",
    packages=['pypi_downloader'],
-   install_requires=['requests', 'click', 'configparser'], 
+   install_requires=['requests', 'click', 'configparser'],
 )
