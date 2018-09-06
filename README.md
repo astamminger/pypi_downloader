@@ -48,8 +48,13 @@ file containing a general settings section `[settings]` defining the type
 of packages to look for and the location to which the downloaded packages will
 be stored (Note that each package will be stored to a subfolder corresponding
 to the package name located inside the folder specified by the `cache_folder`
-variable). The packages you are interest in are specified under the
-`[packages]` section, accepting a list of packages (and a version /
+variable). In addition the `[settings]` section also allows to set specific
+python versions and platforms using the `python` and `platform` specifiers.
+Valid identifiers for these keys are `py2`, `py27`, `cp27`, ... and 
+`manylinux1_x86_64`, `linux_x86_64`, ... respectively (see 
+[PEP427](https://www.python.org/dev/peps/pep-0427/) The actual packages you 
+are interested in are specified under the `[packages]` section, following the
+`[settings]` section, accepting a list of packages (and a version /
 version range). An example configuration file is shown below.
 
 ```console
@@ -57,10 +62,13 @@ version range). An example configuration file is shown below.
   [settings]
     cache_folder: ./cache
     packagetypes: bdist_wheel,sdist
+    python: cp27,py27,py2
+	  platform: any,manylinux1_x86_64,linux_x86_64
 
   [packages]
     requests>=2.19.0
     pip>=9.0.0,<10.0.0
+	  numpy==1.14.3
 ```
 
 To download the specified packages to the `./cache` folder call the implemented
