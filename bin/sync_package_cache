@@ -37,11 +37,23 @@ def parse_config(configfile):
     # get (and possibly create) the defined cache folder
     cache_folder = config['settings'].get('cache_folder', fallback='./')
     packagetypes = config['settings'].get('packagetypes', fallback='wheel')
+    platform_tags = config['settings'].get('platform', fallback='')
+    python_tags = config['settings'].get('python', fallback='') 
     cache_folder_abspath = os.path.abspath(cache_folder)
     pypi_downloader.create_directory(cache_folder_abspath)
+    if (platform_tags == ''):
+        platforms = None
+    else:
+        platforms = platform_tags.split(",")
+    if (python_tags == ''):
+        python_versions = None
+    else:
+        python_versions = python_tags.split(",")
     settings = {
         'cache_folder': os.path.abspath(cache_folder),
-        'packagetypes': packagetypes.split(",")
+        'packagetypes': packagetypes.split(","),
+        'pyversions': python_versions,
+        'platforms': platforms,
     }
 
     package_list = []
