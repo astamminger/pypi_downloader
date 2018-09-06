@@ -52,7 +52,7 @@ variable). In addition the `[settings]` section also allows to set specific
 python versions and platforms using the `python` and `platform` specifiers.
 Valid identifiers for these keys are `py2`, `py27`, `cp27`, ... and 
 `manylinux1_x86_64`, `linux_x86_64`, ... respectively (see 
-[PEP427](https://www.python.org/dev/peps/pep-0427/) The actual packages you 
+[PEP427](https://www.python.org/dev/peps/pep-0427) The actual packages you 
 are interested in are specified under the `[packages]` section, following the
 `[settings]` section, accepting a list of packages (and a version /
 version range). An example configuration file is shown below.
