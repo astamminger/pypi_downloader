@@ -5,14 +5,14 @@ PyPi Downloader is a small utility provided to download multiple packages from
 the [PyPi Index](https://pypi.org/) index fulfilling the specified requirements
 (i.e. a package version and package type). It's main purpose (or how I use it)
 is to download multiple version of a single package which may then be added to
-package cache used as input for an internal PyPi server. This is useful if you
-work on a cluster without internet access to easily setup internal package
+a package cache used as input for an internal PyPi server. This is useful if 
+you work on a cluster without internet access to easily setup internal package
 ressources.
 
 ## Getting Started
 
 The following instructions will tell you how to install the downloader and
-gives a short example on how to use the utility.
+give a short example on how to use the utility.
 
 ### Installing
 
@@ -20,7 +20,7 @@ After cloning the repository to your local disc switch to the top folder
 of the project containing the `setup.py` file and execute
 
 ```console
-  $ python setup.py install
+  $ pip install .
 ```
 
 which will install the PyPi Downloader to your currently loaded python
