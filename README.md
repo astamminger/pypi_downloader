@@ -63,12 +63,12 @@ version range). An example configuration file is shown below.
     cache_folder: ./cache
     packagetypes: bdist_wheel,sdist
     python: cp27,py27,py2
-	  platform: any,manylinux1_x86_64,linux_x86_64
+    platform: any,manylinux1_x86_64,linux_x86_64
 
   [packages]
     requests>=2.19.0
     pip>=9.0.0,<10.0.0
-	  numpy==1.14.3
+    numpy==1.14.3
 ```
 
 To download the specified packages to the `./cache` folder call the implemented
