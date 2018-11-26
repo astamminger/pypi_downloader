@@ -4,7 +4,6 @@
 import os
 import errno
 import requests
-import json
 import click
 
 from pkg_resources import Requirement
@@ -39,7 +38,9 @@ def resolve_url_list(settings, package):
     requires = Requirement(package)
 
     package_addr = _GENERIC_ADDRESS.format(package=requires.name)
-    package_data = requests.get(package_addr).json()
+    package_request = requests.get(package_addr)
+    package_request.raise_for_status()  # raise if response is 4xx/5xx
+    package_data = package_request.json()
 
     all_versions = package_data["releases"].keys()
     wanted_versions = [v for v in all_versions if (requires.__contains__(v))]
@@ -108,9 +109,10 @@ def download_package(url, target_file):
     """Download contents at url-address to file."""
 
     if (not os.path.exists(target_file)):
-        package_data = requests.get(url, allow_redirects=True)
+        package_request = requests.get(url, allow_redirects=True)
+        package_request.raise_for_status()  # raise if response is 4xx/5xx
         with open(target_file, 'wb') as target:
-            target.write(package_data.content)
+            target.write(package_request.content)
     else: # skip if file is already present in cache
         pass
 
